@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <android.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar1"
         android:layout_width="match_parent"
         android:layout_height="70dp"
@@ -20,6 +20,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
+                android:id="@+id/newsApp"
 
                 android:layout_marginTop="15dp"
                 android:gravity="center_horizontal"
@@ -30,7 +31,7 @@
 
 
         </RelativeLayout>
-    </android.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
 
     <com.google.android.material.tabs.TabLayout
@@ -39,12 +40,12 @@
         android:layout_height="?attr/actionBarSize"
         android:layout_below="@id/toolbar1"
         android:background="#05A0E6"
+        app:tabIndicatorAnimationMode="elastic"
         app:tabIndicatorColor="@color/white"
         app:tabMode="scrollable"
         app:tabRippleColor="@color/white"
         app:tabSelectedTextColor="@color/white"
-        app:tabTextColor="@color/black"
-        app:tabIndicatorAnimationMode="elastic">
+        app:tabTextColor="@color/black">
 
 
         <com.google.android.material.tabs.TabItem

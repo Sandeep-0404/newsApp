@@ -2,23 +2,22 @@ package com.example.newsapp;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
-import android.widget.Toolbar;
+
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.newsapp.databinding.ActivityMainBinding;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     TabItem general, sports, science, entertainment, health, technology;
     fragmentManager fragmentManager;
     ViewPager2 viewPager2;
+    ActivityMainBinding activityMainBinding;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         toolbar = findViewById(R.id.toolbar1);
-        setActionBar(toolbar);
+        setSupportActionBar(toolbar);
 
         tabLayout = findViewById(R.id.categories);
         general = findViewById(R.id.general);
@@ -80,6 +80,38 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        findViewById(R.id.newsApp).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewPager2.setCurrentItem(0);
+            }
+        });
 
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu,menu);
+        MenuItem item=menu.findItem(R.id.search);
+        SearchView searchView=(SearchView) item.getActionView();
+        searchView.setQueryHint("Search");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+
+        return super.onCreateOptionsMenu(menu);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.newsapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,20 @@ public class adapter extends RecyclerView.Adapter<adapter.ViewH> {
         holder.mdesc.setText(data.get(position).getDescription());
         Glide.with(context).load(data.get(position).getUrlToImage()).into(holder.mimage);
         holder.msource.setText(data.get(position).getSource().get("name"));
+
+        String url=data.get(position).getUrl();
+        holder.mcardview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent=new Intent(context,webVIew.class);
+                intent.putExtra("url",url);
+                context.startActivity(intent);
+
+
+
+            }
+        });
 
 
     }

@@ -25,7 +25,7 @@ public class general extends Fragment {
     private ArrayList<model2> data;
     private RecyclerView recyclerView;
     private adapter adapter;
-    private ArrayList<model2> datalist;
+    private ArrayList<model> datalist;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -88,6 +88,7 @@ public class general extends Fragment {
                 if (response.isSuccessful()) {
 
                     data.addAll(response.body().getArticles());
+
                     adapter.notifyDataSetChanged();
 
                 }
