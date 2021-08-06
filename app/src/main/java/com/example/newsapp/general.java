@@ -1,5 +1,6 @@
 package com.example.newsapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,23 +83,28 @@ public class general extends Fragment {
         recyclerView.hasFixedSize();
 
 
-        utilitiy.interApi().getSpecific("en", "general", api_key, 100).enqueue(new Callback<model>() {
-            @Override
-            public void onResponse(Call<model> call, Response<model> response) {
-                if (response.isSuccessful()) {
 
-                    data.addAll(response.body().getArticles());
 
-                    adapter.notifyDataSetChanged();
+
+            utilitiy.interApi().getSpecific("en", "general", api_key, 100).enqueue(new Callback<model>() {
+                @Override
+                public void onResponse(Call<model> call, Response<model> response) {
+                    if (response.isSuccessful()) {
+
+                        data.addAll(response.body().getArticles());
+
+                        adapter.notifyDataSetChanged();
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<model> call, Throwable t) {
 
                 }
-            }
+            });
 
-            @Override
-            public void onFailure(Call<model> call, Throwable t) {
 
-            }
-        });
 
         return v;
     }

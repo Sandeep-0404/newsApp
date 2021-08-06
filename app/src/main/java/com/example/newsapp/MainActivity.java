@@ -3,31 +3,28 @@ package com.example.newsapp;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
-
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.fragment.app.Fragment;
 
-import com.example.newsapp.databinding.ActivityMainBinding;
-import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
+
 
 public class MainActivity extends AppCompatActivity {
-
+    int home = 1;
+    int covid = 2;
+    int weather = 3;
     TabLayout tabLayout;
-
+    String q;
     Toolbar toolbar;
-    TabItem general, sports, science, entertainment, health, technology;
-    fragmentManager fragmentManager;
-    ViewPager2 viewPager2;
-    ActivityMainBinding activityMainBinding;
+    ChipNavigationBar chipNavigationBar;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -35,55 +32,43 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        toolbar = findViewById(R.id.toolbar1);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         toolbar = findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar);
 
-        tabLayout = findViewById(R.id.categories);
-        general = findViewById(R.id.general);
-        sports = findViewById(R.id.sports);
-        science = findViewById(R.id.science);
-        entertainment = findViewById(R.id.entertainment);
-        health = findViewById(R.id.health);
-        technology = findViewById(R.id.technology);
-        viewPager2 = findViewById(R.id.viewPager);
+
+        chipNavigationBar = findViewById(R.id.chip);
+        chipNavigationBar.setItemSelected(R.id.home, true);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.frag_container, new home()).commit();
 
 
-        fragmentManager = new fragmentManager(getSupportFragmentManager(), getLifecycle());
-
-        viewPager2.setAdapter(fragmentManager);
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager2.setCurrentItem(tab.getPosition());
+            public void onItemSelected(int i) {
 
-            }
+                Fragment fragment = null;
+                switch (i) {
+                    case R.id.home:
+                        fragment = new home();
+                        break;
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
+                    case R.id.covid:
+                        fragment = new covid();
+                        break;
 
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                tabLayout.selectTab(tabLayout.getTabAt(position));
-            }
-        });
+                    case R.id.weather:
+                        fragment = new weather();
+                        break;
 
 
-        findViewById(R.id.newsApp).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewPager2.setCurrentItem(0);
+                }
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.frag_container, fragment).commit();
+
+
             }
         });
 
@@ -93,16 +78,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.menu,menu);
-        MenuItem item=menu.findItem(R.id.search);
-        SearchView searchView=(SearchView) item.getActionView();
-        searchView.setQueryHint("Search");
+        getMenuInflater().inflate(R.menu.menu, menu);
+        MenuItem item = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) item.getActionView();
+        searchView.setQueryHint("Search here");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
 
+                // Toast.makeText(MainActivity.this, "hey", Toast.LENGTH_SHORT).show();
 
-                return false;
+                if (searchView.getQuery() != null) {
+
+                    q = searchView.getQuery().toString().trim().toLowerCase();
+
+                    //viewPager2.setCurrentItem(0);
+                    Toast.makeText(getApplicationContext(), q, Toast.LENGTH_SHORT).show();
+                }
+
+                return true;
             }
 
             @Override
@@ -114,4 +108,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onCreateOptionsMenu(menu);
     }
+
+
 }
