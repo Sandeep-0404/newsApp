@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -92,8 +91,12 @@ public class MainActivity extends AppCompatActivity {
 
                     q = searchView.getQuery().toString().trim().toLowerCase();
 
-                    //viewPager2.setCurrentItem(0);
-                    Toast.makeText(getApplicationContext(), q, Toast.LENGTH_SHORT).show();
+                    searchActivity searchActivity = new searchActivity();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("keyword", q);
+                    searchActivity.setArguments(bundle);
+                    getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.frag_container, searchActivity).commit();
+
                 }
 
                 return true;
